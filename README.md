@@ -1,5 +1,12 @@
 # PixelChain
 
+"start chain" 
+
+cd scripts
+bash ./install.sh
+bash ./build.sh
+
+
 PixelChain aims to create a groundbreaking decentralized gaming ecosystem where players, developers, and creators can connect and thrive. By leveraging the interoperability and security of the Polkadot Parachain architecture, alongside EVM compatibility, PixelChain will empower a new generation of immersive, player-driven gaming experiences.
 
 Core Concepts:
