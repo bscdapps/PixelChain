@@ -1,13 +1,40 @@
 # PixelChain
 
-"start chain" 
-
-cd scripts
-bash ./install.sh
-bash ./build.sh
-
 
 PixelChain aims to create a groundbreaking decentralized gaming ecosystem where players, developers, and creators can connect and thrive. By leveraging the interoperability and security of the Polkadot Parachain architecture, alongside EVM compatibility, PixelChain will empower a new generation of immersive, player-driven gaming experiences.
+
+## Prerequisites
+
+-Before you begin, ensure you have the following:
+-Basic understanding of blockchain technology and smart contracts.
+-Familiarity with Rust and Solidity programming languages.
+-Linux based operating system installed on your machine.
+-A MetaMask or Polkadot.js wallet for interacting with the PixelChain network.
+
+ Setting Up Your Development Node
+
+Clone the PixelChain repository from GitHub.
+git clone https://github.com/BscDapps/PixelChain.git
+
+Navigate to the project directory.
+cd PixelChain
+
+Install the necessary dependencies.
+cd script && bash ./install.sh
+
+Start the local development Node.
+bash ./build.sh
+
+Installing and Running PixelChain
+
+PixelChain can be installed and run locally for development purposes. Follow the setup instructions in the README file provided in the GitHub repository.
+
+Connecting to the PixelChain Testnet
+
+To interact with the PixelChain testnet:
+-Install the MetaMask extension.
+-Connect your wallet to the testnet by selecting the PixelChain network.
+-Deploy and test your smart contracts on the testnet environment.
 
 Core Concepts:
 
