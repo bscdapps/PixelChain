@@ -5,7 +5,7 @@ my_os=$(uname -a)
 
 # Ubuntu:
 if echo "$my_os" | fgrep -q Ubuntu 2>/dev/null ; then
-	apt update && apt install -y git clang curl libssl-dev llvm libudev-dev
+	sudo apt update && sudo apt install -y git clang curl libssl-dev llvm libudev-dev
 # Debian:
 elif echo "$my_os" | fgrep -q Debian 2>/dev/null; then
 	echo "Debian Detected"
@@ -55,14 +55,15 @@ if ! which rustup >/dev/null 2>&1; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	source ~/.cargo/env
 else:
-	rustup update
+	rustup update nightly
 fi # new
 
-apt-get install make pkg-config libssl-dev
-rustup default 1.59.0
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly
-echo "Installing Pixel node"
+rustup default 1.59.0
+rustup show
+
+echo "Installing pixel node"
 cd .. && cargo build --release
 
 echo "Done <3"
