@@ -1,6 +1,6 @@
 #!/bin/sh
 # One liner a node operator can use to install and compile the node
-echo "Pixel Multiplatform installer"
+echo "Diora Multiplatform installer"
 my_os=$(uname -a)
 
 # Ubuntu:
@@ -63,7 +63,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly
 rustup default 1.59.0
 rustup show
 
-echo "Installing pixel node"
+echo "Installing Diora node"
 cd .. && cargo build --release
 
 echo "Done <3"

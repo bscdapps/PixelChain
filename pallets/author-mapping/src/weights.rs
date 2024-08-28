@@ -1,3 +1,6 @@
+// This file is part of Diora.
+
+// Copyright (C) 2019-2022 Diora-Network.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +23,7 @@
 //! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: None, DB CACHE: 1024
 
 // Executed Command:
-// ./target/release/pixel
+// ./target/release/diora
 // benchmark
 // pallet
 // --execution=wasm

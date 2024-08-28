@@ -1,6 +1,3 @@
-// This file is part of Pixel.
-
-
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -79,9 +76,9 @@ use sp_core::{H160, H256, U256};
 use sp_runtime::traits::{AccountIdConversion, DispatchInfoOf, Dispatchable, PostDispatchInfoOf};
 
 mod precompiles;
-pub use precompiles::pixelPrecompiles;
+pub use precompiles::DioraPrecompiles;
 
-pub type Precompiles = pixelPrecompiles<Runtime>;
+pub type Precompiles = DioraPrecompiles<Runtime>;
 
 mod xcm_config;
 
@@ -109,8 +106,8 @@ impl_opaque_keys! {
 
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("pixel"),
-	impl_name: create_runtime_str!("pixel"),
+	spec_name: create_runtime_str!("Diora"),
+	impl_name: create_runtime_str!("Diora"),
 	authoring_version: 1,
 	spec_version: 9380,
 	impl_version: 0,
@@ -494,7 +491,7 @@ pub const WEIGHT_PER_GAS: u64 = WEIGHT_REF_TIME_PER_SECOND / GAS_PER_SECOND;
 parameter_types! {
 	pub BlockGasLimit: U256
 		= U256::from(NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT.ref_time() / WEIGHT_PER_GAS);
-	pub PrecompilesValue: pixelPrecompiles<Runtime> = pixelPrecompiles::<_>::new();
+	pub PrecompilesValue: DioraPrecompiles<Runtime> = DioraPrecompiles::<_>::new();
 	pub WeightPerGas: Weight = Weight::from_ref_time(WEIGHT_PER_GAS);
 }
 
@@ -545,7 +542,7 @@ impl pallet_evm::Config for Runtime {
 	type Currency = Balances;
 	type RuntimeEvent = RuntimeEvent;
 	type Runner = pallet_evm::runner::stack::Runner<Self>;
-	type PrecompilesType = pixelPrecompiles<Runtime>;
+	type PrecompilesType = DioraPrecompiles<Runtime>;
 	type PrecompilesValue = PrecompilesValue;
 	type ChainId = EthereumChainId;
 	type OnChargeTransaction = pallet_evm::EVMCurrencyAdapter<Balances, DealWithFees<Runtime>>;
@@ -588,7 +585,7 @@ impl pallet_ethereum_chain_id::Config for Runtime {}
 
 // ================================ Ethereum Modules End ================================
 
-// ================================ pixel Modules Start ================================
+// ================================ Diora Modules Start ================================
 
 impl pallet_author_inherent::Config for Runtime {
 	type AccountLookup = AuthorMapping;
@@ -733,7 +730,7 @@ impl pallet_block_reward::Config for Runtime {
 	type WeightInfo = pallet_block_reward::weights::SubstrateWeight<Runtime>;
 }
 
-// ================================ pixel Modules End ================================
+// ================================ Diora Modules End ================================
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -773,7 +770,7 @@ construct_runtime!(
 		EVM: pallet_evm = 31,
 		Ethereum: pallet_ethereum = 32,
 
-		// pixel pallets
+		// Diora pallets
 		ParachainStaking: pallet_parachain_staking = 40,
 		AuthorInherent: pallet_author_inherent = 41,
 		AuthorFilter: pallet_author_slot_filter = 42,
@@ -1134,7 +1131,7 @@ impl_runtime_apis! {
 				) -> bool {
 					let block_number = parent_header.number + 1;
 
-					// The pixel runtimes use an entropy source that needs to do some accounting
+					// The Diora runtimes use an entropy source that needs to do some accounting
 					// work during block initialization. Therefore we initialize it here to match
 					// the state it will be in when the next block is being executed.
 					use frame_support::traits::OnInitialize;

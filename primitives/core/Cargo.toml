@@ -1,6 +1,6 @@
 [package]
 name = "core-primitives"
-authors = [ "Pixel Developer" ]
+authors = [ "Diora Developer" ]
 description = "Primitives for session keys"
 edition = "2021"
 version = "0.1.0"

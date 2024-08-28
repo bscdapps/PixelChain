@@ -1,6 +1,4 @@
-// This file is part of Pixel.
-
-// Copyright (C) 2024 PixelChain.
+// This file is part of Pixel
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify

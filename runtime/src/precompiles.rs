@@ -1,6 +1,3 @@
-// This file is part of pixel.
-
-// Copyright (C) 2019-2022 pixel-Network.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +40,7 @@ parameter_types! {
 type EthereumPrecompilesChecks = (AcceptDelegateCall, CallableByContract, CallableByPrecompile);
 
 #[precompile_utils::precompile_name_from_address]
-type pixelPrecompilesAt<R> = (
+type DioraPrecompilesAt<R> = (
 	// Ethereum precompiles:
 	// We allow DELEGATECALL to stay compliant with Ethereum behavior.
 	PrecompileAt<AddressU64<1>, ECRecover, EthereumPrecompilesChecks>,
@@ -55,11 +52,11 @@ type pixelPrecompilesAt<R> = (
 	PrecompileAt<AddressU64<7>, Bn128Mul, EthereumPrecompilesChecks>,
 	PrecompileAt<AddressU64<8>, Bn128Pairing, EthereumPrecompilesChecks>,
 	PrecompileAt<AddressU64<9>, Blake2F, EthereumPrecompilesChecks>,
-	// Non-pixel specific nor Ethereum precompiles :
+	// Non-Diora specific nor Ethereum precompiles :
 	PrecompileAt<AddressU64<1024>, Sha3FIPS256, (CallableByContract, CallableByPrecompile)>,
 	RemovedPrecompileAt<AddressU64<1025>>, // Dispatch<R>
 	PrecompileAt<AddressU64<1026>, ECRecoverPublicKey, (CallableByContract, CallableByPrecompile)>,
-	// pixel specific precompiles:
+	// Diora specific precompiles:
 	PrecompileAt<
 		AddressU64<2048>,
 		ParachainStakingPrecompile<R>,
@@ -72,16 +69,16 @@ type pixelPrecompilesAt<R> = (
 	>,
 );
 
-/// The PrecompileSet installed in the pixel runtime.
+/// The PrecompileSet installed in the Diora runtime.
 /// We include the nine Istanbul precompiles
 /// (https://github.com/ethereum/go-ethereum/blob/3c46f557/core/vm/contracts.go#L69)
 /// as well as a special precompile for dispatching Substrate extrinsics
 /// The following distribution has been decided for the precompiles
 /// 0-1023: Ethereum Mainnet Precompiles
-/// 1024-2047 Precompiles that are not in Ethereum Mainnet but are neither pixel specific
-/// 2048-4095 pixel specific precompiles
-pub type pixelPrecompiles<R> = PrecompileSetBuilder<
+/// 1024-2047 Precompiles that are not in Ethereum Mainnet but are neither Diora specific
+/// 2048-4095 Diora specific precompiles
+pub type DioraPrecompiles<R> = PrecompileSetBuilder<
 	R,
 	// Skip precompiles if out of range.
-	PrecompilesInRangeInclusive<(AddressU64<1>, AddressU64<4095>), pixelPrecompilesAt<R>>,
+	PrecompilesInRangeInclusive<(AddressU64<1>, AddressU64<4095>), DioraPrecompilesAt<R>>,
 >;

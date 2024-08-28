@@ -84,68 +84,16 @@ pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Pu
 		.public()
 }
 
-pub fn development_config() -> ChainSpec {
-	// Give your base currency a unit name and decimal places
-	let mut properties = sc_chain_spec::Properties::new();
-	properties.insert("tokenSymbol".into(), "DIR".into());
-	properties.insert("tokenDecimals".into(), 18.into());
-	properties.insert("ss58Format".into(), 42.into());
 
+pub fn diora_local_config() -> ChainSpec {
 	ChainSpec::from_genesis(
 		// Name
-		"Development",
+		"Diora Local Testnet",
 		// ID
-		"dev",
-		ChainType::Development,
-		move || {
-			testnet_genesis(
-				// initial collators.
-				vec![(
-						 get_account_id_from_seed::<sr25519::Public>("Alice"),
-						 get_collator_keys_from_seed("Alice"),
-					 ),
-					 (
-						 get_account_id_from_seed::<sr25519::Public>("Bob"),
-						 get_collator_keys_from_seed("Bob"),
-					 )],
-				vec![
-					get_account_id_from_seed::<sr25519::Public>("Alice"),
-					get_account_id_from_seed::<sr25519::Public>("Bob"),
-					get_account_id_from_seed::<sr25519::Public>("Charlie"),
-					get_account_id_from_seed::<sr25519::Public>("Dave"),
-					get_account_id_from_seed::<sr25519::Public>("Eve"),
-					get_account_id_from_seed::<sr25519::Public>("Ferdie"),
-					get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Charlie//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Dave//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Eve//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
-				],
-				2000.into(),
-			)
-		},
-		vec![],
-		None,
-		None,
-		None,
-		Some(properties),
-		Extensions {
-			relay_chain: "rococo".into(), // You MUST set this to the correct network!
-			para_id: 2000,
-		},
-	)
-}
-
-pub fn pixel_local_config() -> ChainSpec {
-	ChainSpec::from_genesis(
-		// Name
-		"Pixel Local Testnet",
-		// ID
-		"pixel_local_testnet",
+		"diora_local_testnet",
 		ChainType::Local,
 		move || {
-			pixel_genesis(
+			diora_genesis(
 				//sudo
 				get_account_id_from_seed::<sr25519::Public>("Alice"),
 				// initial collators.
@@ -179,7 +127,7 @@ pub fn pixel_local_config() -> ChainSpec {
 		// Telemetry
 		None,
 		// Protocol ID
-		Some("pixel-local"),
+		Some("diora-local"),
 		// Fork ID
 		None,
 		// Properties
@@ -197,15 +145,15 @@ pub fn pixel_local_config() -> ChainSpec {
 	)
 }
 
-pub fn pixel_rococo_config() -> ChainSpec {
+pub fn diora_rococo_config() -> ChainSpec {
 	ChainSpec::from_genesis(
 		// Name
-		"pixel rococo",
+		"Diora rococo",
 		// ID
-		"pixel rococo",
+		"Diora rococo",
 		ChainType::Live,
 		move || {
-			pixel_genesis(
+			diora_genesis(
 				// sudo key
 				// 5DtB6JvRdkzaCnozxs2x7qcqzJjut3WpXgEx7o6peqjwuPhA
 				hex!["5070730422a430b8e25b0d8561714750b7a0ec8bc11726e1ac6518cbe9dc1e38"].into(),
@@ -253,7 +201,7 @@ pub fn pixel_rococo_config() -> ChainSpec {
 		// Telemetry
 		None,
 		// Protocol ID
-		Some("pixel-rococo"),
+		Some("diora-rococo"),
 		// Fork ID
 		None,
 		// Properties
@@ -275,7 +223,7 @@ const COLLATOR_COMMISSION: Perbill = Perbill::from_percent(20);
 const PARACHAIN_BOND_RESERVE_PERCENT: Percent = Percent::from_percent(30);
 const BLOCKS_PER_ROUND: u32 = 6 * HOURS;
 const NUM_SELECTED_CANDIDATES: u32 = 8;
-pub fn pixel_inflation_config() -> InflationInfo<Balance> {
+pub fn diora_inflation_config() -> InflationInfo<Balance> {
 	let annual = Range {
 		min: Perbill::from_percent(4),
 		ideal: Perbill::from_percent(5),
@@ -299,7 +247,7 @@ pub fn pixel_inflation_config() -> InflationInfo<Balance> {
 	}
 }
 
-fn pixel_genesis(
+fn diora_genesis(
 	sudo_key: AccountId,
 	candidates: Vec<(AccountId, NimbusId, Balance)>,
 	endowed_accounts: Vec<AccountId>,
@@ -353,7 +301,7 @@ fn pixel_genesis(
 				.map(|(account, _, bond)| (account, bond))
 				.collect(),
 			delegations: vec![],
-			inflation_config: pixel_inflation_config(),
+			inflation_config: diora_inflation_config(),
 			collator_commission: COLLATOR_COMMISSION,
 			parachain_bond_reserve_percent: PARACHAIN_BOND_RESERVE_PERCENT,
 			blocks_per_round: BLOCKS_PER_ROUND,

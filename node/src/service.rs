@@ -1,6 +1,3 @@
-// This file is part of pixel.
-
-// Copyright (C) 2019-2022 pixel-Network.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -62,9 +59,9 @@ use std::{collections::BTreeMap, sync::Mutex};
 pub const SOFT_DEADLINE_PERCENT: Percent = Percent::from_percent(100);
 
 /// Native executor instance.
-pub struct pixelRuntimeExecutor;
+pub struct DioraRuntimeExecutor;
 
-impl sc_executor::NativeExecutionDispatch for pixelRuntimeExecutor {
+impl sc_executor::NativeExecutionDispatch for DioraRuntimeExecutor {
 	type ExtendHostFunctions = frame_benchmarking::benchmarking::HostFunctions;
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
@@ -76,7 +73,7 @@ impl sc_executor::NativeExecutionDispatch for pixelRuntimeExecutor {
 	}
 }
 
-type FullClient = TFullClient<Block, RuntimeApi, NativeElseWasmExecutor<pixelRuntimeExecutor>>;
+type FullClient = TFullClient<Block, RuntimeApi, NativeElseWasmExecutor<DioraRuntimeExecutor>>;
 type FullBackend = TFullBackend<Block>;
 type FullSelectChain = Option<sc_consensus::LongestChain<FullBackend, Block>>;
 
@@ -86,7 +83,7 @@ pub fn frontier_database_dir(config: &Configuration, path: &str) -> std::path::P
 		.as_ref()
 		.map(|base_path| base_path.config_dir(config.chain_spec.id()))
 		.unwrap_or_else(|| {
-			BasePath::from_project("", "", "pixel").config_dir(config.chain_spec.id())
+			BasePath::from_project("", "", "diora").config_dir(config.chain_spec.id())
 		});
 	config_dir.join("frontier").join(path)
 }
@@ -120,13 +117,13 @@ where
 	)?))
 }
 
-// If we're using prometheus, use a registry with a prefix of `pixel`.
+// If we're using prometheus, use a registry with a prefix of `diora`.
 fn set_prometheus_registry(config: &mut Configuration) -> Result<(), ServiceError> {
 	if let Some(PrometheusConfig { registry, .. }) = config.prometheus_config.as_mut() {
 		let labels = hashmap! {
 			"chain".into() => config.chain_spec.id().into(),
 		};
-		*registry = Registry::new_custom(Some("pixel".into()), Some(labels))?;
+		*registry = Registry::new_custom(Some("diora".into()), Some(labels))?;
 	}
 
 	Ok(())
@@ -173,7 +170,7 @@ pub fn new_partial(
 		})
 		.transpose()?;
 
-	let executor = NativeElseWasmExecutor::<pixelRuntimeExecutor>::new(
+	let executor = NativeElseWasmExecutor::<DioraRuntimeExecutor>::new(
 		config.wasm_method,
 		config.default_heap_pages,
 		config.max_runtime_instances,
@@ -256,7 +253,7 @@ async fn start_node_impl<BIC>(
 ) -> sc_service::error::Result<(TaskManager, Arc<FullClient>)>
 where
 	sc_client_api::StateBackendFor<TFullBackend<Block>, Block>: sp_api::StateBackend<BlakeTwo256>,
-	pixelRuntimeExecutor: sc_executor::NativeExecutionDispatch + 'static,
+	DioraRuntimeExecutor: sc_executor::NativeExecutionDispatch + 'static,
 	BIC: FnOnce(
 		Arc<FullClient>,
 		Arc<sc_client_db::Backend<Block>>,
@@ -466,7 +463,7 @@ pub async fn start_parachain_node(
 	hwbench: Option<sc_sysinfo::HwBench>,
 ) -> sc_service::error::Result<(
 	TaskManager,
-	Arc<TFullClient<Block, RuntimeApi, NativeElseWasmExecutor<pixelRuntimeExecutor>>>,
+	Arc<TFullClient<Block, RuntimeApi, NativeElseWasmExecutor<DioraRuntimeExecutor>>>,
 )> {
 	start_node_impl(
 		parachain_config,

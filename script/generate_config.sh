@@ -37,11 +37,11 @@ rm -fr script/data
 mkdir script/config
 mkdir script/data
 
-echo "build pixel chainspec"
+echo "build diora chainspec"
 
-target/release/pixel build-spec --disable-default-bootnode --chain $1 >  script/config/$1.json
-target/release/pixel export-genesis-state --chain script/config/$1.json > script/config/$1.genesis
-target/release/pixel export-genesis-wasm --chain script/config/$1.json > script/config/$1.wasm
+target/release/diora build-spec --disable-default-bootnode --chain $1 >  script/config/$1.json
+target/release/diora export-genesis-state --chain script/config/$1.json > script/config/$1.genesis
+target/release/diora export-genesis-wasm --chain script/config/$1.json > script/config/$1.wasm
 
 
 newParas="{\"paras\":[
@@ -64,7 +64,7 @@ echo $newParas > script/config/newParas.json
 # Generate Relay ChainSpec
 echo "build relay chainspec"
 script/polkadot build-spec --chain rococo-local --disable-default-bootnode |
-jq 'setpath(["name"]; "pixel Rococo Testnet")' |
+jq 'setpath(["name"]; "Diora Rococo Testnet")' |
 jq --argjson version "${chainSpecVersion}" 'setpath(["id"]; $version.id)' |
 jq --argjson replace2 "${newBalance}" 'setpath(["genesis","runtime","runtime_genesis_config","balances","balances"]; $replace2.balances)' |
 jq --argjson replace3 "${newSudo}" 'setpath(["genesis","runtime","runtime_genesis_config","sudo","key"]; $replace3.sudo)' |

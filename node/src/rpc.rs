@@ -1,6 +1,3 @@
-// This file is part of pixel.
-
-// Copyright (C) 2019-2022 pixel-Network.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -231,7 +228,7 @@ pub struct SpawnTasksParams<'a, B: BlockT, C, BE> {
 	pub fee_history_cache: FeeHistoryCache,
 }
 
-/// Spawn the tasks that are required to run pixel.
+/// Spawn the tasks that are required to run Diora.
 pub fn spawn_essential_tasks<B, C, BE>(params: SpawnTasksParams<B, C, BE>)
 where
 	C: ProvideRuntimeApi<B> + BlockOf,

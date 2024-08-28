@@ -1,6 +1,3 @@
-// This file is part of pixel.
-
-// Copyright (C) 2019-2022 pixel-Network.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
 // This program is free software: you can redistribute it and/or modify
@@ -19,7 +16,7 @@
 use crate::{
 	chain_spec,
 	cli::{Cli, RelayChainCli, Subcommand},
-	service::{new_partial, pixelRuntimeExecutor},
+	service::{new_partial, DioraRuntimeExecutor},
 };
 use codec::Encode;
 use cumulus_client_cli::generate_genesis_block;
@@ -38,15 +35,15 @@ use std::{io::Write, net::SocketAddr};
 
 fn load_spec(id: &str) -> std::result::Result<Box<dyn ChainSpec>, String> {
 	Ok(match id {
-		"pixel_rococo" => Box::new(chain_spec::pixel_rococo_config()),
-		"" | "pixel_local" => Box::new(chain_spec::pixel_local_config()),
+		"diora_rococo" => Box::new(chain_spec::diora_rococo_config()),
+		"" | "diora_local" => Box::new(chain_spec::diora_local_config()),
 		path => Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?),
 	})
 }
 
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"pixel Parachain".into()
+		"Diora Parachain".into()
 	}
 
 	fn impl_version() -> String {
@@ -55,7 +52,7 @@ impl SubstrateCli for Cli {
 
 	fn description() -> String {
 		format!(
-			"pixel Parachain \n\nThe command-line arguments provided first will be \
+			"Diora Parachain \n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relay chain node.\n\n\
 		{} <parachain-args> -- <relay-chain-args>",
@@ -86,7 +83,7 @@ impl SubstrateCli for Cli {
 
 impl SubstrateCli for RelayChainCli {
 	fn impl_name() -> String {
-		"pixel Parachain Collator ".into()
+		"Diora Parachain Collator ".into()
 	}
 
 	fn impl_version() -> String {
@@ -95,7 +92,7 @@ impl SubstrateCli for RelayChainCli {
 
 	fn description() -> String {
 		format!(
-			"pixel Parachain \n\nThe command-line arguments provided first will be \
+			"Diora Parachain \n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relay chain node.\n\n\
 		{} <parachain-args> -- <relay-chain-args>",
@@ -251,7 +248,7 @@ pub fn run() -> Result<()> {
 			match cmd {
 				BenchmarkCmd::Pallet(cmd) =>
 					if cfg!(feature = "runtime-benchmarks") {
-						runner.sync_run(|config| cmd.run::<Block, pixelRuntimeExecutor>(config))
+						runner.sync_run(|config| cmd.run::<Block, DioraRuntimeExecutor>(config))
 					} else {
 						Err("Benchmarking wasn't enabled when building the node. \
 			  You can enable it with `--features runtime-benchmarks`."

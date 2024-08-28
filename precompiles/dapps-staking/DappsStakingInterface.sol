@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity >=0.8.0;
 
-/// @author The Pixel Team
+/// @author The Diora Team
 /// @title Pallet Dapps Staking Interface
 /// @dev The interface through which solidity contracts will interact with Dapps Staking
 /// We follow this same interface including four-byte function selectors, in the precompile that
